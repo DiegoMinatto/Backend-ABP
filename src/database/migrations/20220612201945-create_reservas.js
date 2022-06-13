@@ -3,29 +3,27 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     
-     return await queryInterface.createTable('users', {
+     return await queryInterface.createTable('reservas', {
         id: {
           type: Sequelize.INTEGER,
           primaryKey: true,
           autoIncrement: true,
           allowNull: false
         },
-        usuario: {
-          type: Sequelize.STRING,
-          allowNull: false
-        },
-        nome: {
-          type: Sequelize.STRING,
-          allowNull: false
-        },
-        password_hash: {
-          type: Sequelize.STRING,
-          allowNull: false
-        },
-        ativo: {
-          type: Sequelize.BOOLEAN,
+        sala_id: {
+          type: Sequelize.INTEGER,
           allowNull: false,
-          defaultValue: true
+          references: { model: 'salas', key: 'id' },
+          onUpdate:'CASCADE',
+          onDelete: 'CASCADE'
+        },
+        nome_reserva: {
+          type: Sequelize.STRING,
+          allowNull: false
+        },
+        data_entrega: {
+          type: Sequelize.DATEONLY,
+          allowNull: false
         },
         created_at: {
           type: Sequelize.DATE,
@@ -41,7 +39,7 @@ module.exports = {
 
   down: async (queryInterface, Sequelize) => {
     
-    return await queryInterface.dropTable('users');
+    return await queryInterface.dropTable('reservas');
      
   }
 };

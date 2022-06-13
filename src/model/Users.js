@@ -6,8 +6,9 @@ class Users extends Model {
 
           usuario: DataTypes.STRING,
           nome: DataTypes.STRING,
-          password_hash: DataTypes.STRING
-
+          password_hash: DataTypes.STRING,
+          ativo: DataTypes.BOOLEAN,
+          
         }, {
             sequelize: connection
         })
