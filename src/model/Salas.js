@@ -13,7 +13,7 @@ class Salas extends Model {
     }
 
     static associate(models) {
-        this.belongsTo(models.Reservas, { foreignKey: 'id', as: 'salas' })
+        this.belongsTo(models.Reservas, { foreignKey: 'id', as: 'reservas' })
     }
 }
 

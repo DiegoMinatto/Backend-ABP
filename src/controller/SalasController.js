@@ -1,4 +1,7 @@
+const Reservas = require('../model/Reservas');
 const Salas = require('../model/Salas')
+const { Op } = require("sequelize");
+const sequelize = require("sequelize");
 
 
 module.exports = {
@@ -31,6 +34,22 @@ module.exports = {
     try {
       const chaves = await Salas.findAll({attributes: ['id', 'sala', 'observacao' ]});
       res.status(200).json(chaves);
+    } catch (error) {
+      console.log(error)
+      return res.status(500).json({ err: 'Erro interno!' })
+    }
+  },
+
+
+  async recuperaDisponiveis(req, res){
+    try {
+
+      const chaves = await Salas.findAll({attributes: ['id', 'sala', 'observacao' ], where: sequelize.literal(`not "Salas".id in (select "sala_id" 
+                                                                                                                                    FROM "reservas" "Reservas" 
+                                                                                                                                   where "Reservas"."sala_id" = "Salas"."id" 
+                                                                                                                                     and "Reservas"."data_entrega" is null   )`)});
+      res.status(200).json(chaves);
+
     } catch (error) {
       console.log(error)
       return res.status(500).json({ err: 'Erro interno!' })
